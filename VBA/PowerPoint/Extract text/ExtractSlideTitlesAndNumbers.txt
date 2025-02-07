@@ -1,0 +1,21 @@
+Sub ExtractSlideTitlesAndNumbers()
+    Dim pptPresentation As Presentation
+    Dim slide As slide
+    Dim slideIndex As Integer
+    Dim slideTitle As String
+    
+    ' 現在のプレゼンテーションを設定
+    Set pptPresentation = ActivePresentation
+    
+    ' スライドをループし、タイトルと番号を取得
+    For Each slide In pptPresentation.Slides
+        slideIndex = slide.slideIndex
+        If slide.Shapes.HasTitle Then
+            slideTitle = slide.Shapes.Title.TextFrame.TextRange.Text
+        Else
+            slideTitle = "No Title"
+        End If
+        
+        Debug.Print slideIndex & ": " & slideTitle
+    Next slide
+End Sub

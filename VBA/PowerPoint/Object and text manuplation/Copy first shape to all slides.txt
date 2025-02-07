@@ -1,0 +1,15 @@
+'Insert empty slide at the top
+'Delete all shapes if necessary
+'Add shape to copy to all slides
+
+
+Sub AddTextAndCenter()
+    Dim shp As shape
+    ActivePresentation.Slides(1).Shapes(1).Copy
+    Dim x As Long
+    For x = 2 To ActivePresentation.Slides.Count
+        ActivePresentation.Slides(x).Shapes.Paste
+    Next
+    MsgBox ("Done")
+End Sub
+

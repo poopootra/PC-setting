@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "outlook-block-sender"
+version = "0.1.0"
+description = ""
+authors = ["poopootra <miro.herbert@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pysimplegui = "^5.0.3"
+pywin32 = "^306"
+pandas = "^2.2.1"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

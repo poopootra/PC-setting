@@ -1,0 +1,51 @@
+Sub MoveObject()
+    Dim sld As Slide
+    Dim shp As Shape
+    Dim shpName As String
+    Dim moveHorizontal As Single
+    Dim moveVertical As Single
+    Dim affectedSlides As String
+    Dim inputHorizontal As String
+    Dim inputVertical As String
+
+    ' ユーザー入力の取得
+    shpName = InputBox("移動させたいオブジェクトの名前を入力してください:", "オブジェクト名")
+    inputHorizontal = InputBox("横に移動させたいポイント数を入力してください（左に移動させたい場合は負の値）:", "水平移動")
+    inputVertical = InputBox("縦に移動させたいポイント数を入力してください（上に移動させたい場合は負の値）:", "垂直移動")
+    
+    ' 入力値の検証
+    If shpName = "" Or inputHorizontal = "" Or inputVertical = "" Then
+        MsgBox "すべての入力フィールドに値を入力してください。", vbExclamation, "入力エラー"
+        Exit Sub
+    End If
+    
+    moveHorizontal = Val(inputHorizontal)
+    moveVertical = Val(inputVertical)
+    affectedSlides = ""
+
+    ' スライドをループしてオブジェクトを移動
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            If shp.Name = shpName Then
+                shp.Left = shp.Left + moveHorizontal
+                shp.Top = shp.Top + moveVertical
+                ' 影響を受けたスライドの追跡
+                If InStr(affectedSlides, CStr(sld.SlideIndex) & ",") = 0 Then
+                    affectedSlides = affectedSlides & sld.SlideIndex & ", "
+                End If
+            End If
+        Next shp
+    Next sld
+
+    ' 最後のカンマとスペースを削除
+    If Len(affectedSlides) > 0 Then
+        affectedSlides = Left(affectedSlides, Len(affectedSlides) - 2)
+    End If
+
+    ' 影響を受けたスライド番号の表示
+    If affectedSlides <> "" Then
+        MsgBox "以下のスライドが変更されました: " & affectedSlides, vbInformation, "完了"
+    Else
+        MsgBox "指定された名前のオブジェクトが見つかりませんでした。", vbExclamation, "結果"
+    End If
+End Sub

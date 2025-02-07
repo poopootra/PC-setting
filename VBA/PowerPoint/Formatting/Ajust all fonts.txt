@@ -1,0 +1,104 @@
+'If you are using different fonts for asian and non-asian text, follow steps below
+'Run font with both asian and non-asian (E.g. Meiryo UI)
+'Run font only with asian or non-asian (E.g. BISansCond)
+'Done
+
+'There are some cases this code cannnot apply to due to error and using skip for them
+'If you come up with better idea, plase make sure to contact to Miro (miro.herbert@zs.com)
+Public Sub adjustFont()
+    Dim nameFont As String
+    nameFont = InputBox("What would you like to use?")
+
+    Dim col As Collection
+    Dim shp As Shape
+
+    Set col = New Collection
+
+    Call getColShapeFromPresentation(col)   '   Presentation全体のShapeに対して処理する場合
+
+    For Each shp In col      '各Shapeに対して処理
+        Call changeFont(shp, nameFont) 'Fontを変更する
+    Next
+
+End Sub
+
+' Fontを変更する
+Private Sub changeFont(ByRef shp As Shape, ByVal nameFont As String)
+    Dim s As Shape
+    If shp.HasTextFrame Then
+        Call setFontName(shp.TextFrame.TextRange.Font, nameFont)
+        Debug.Print shp.TextFrame.TextRange.Text
+    ElseIf shp.HasSmartArt Then
+        For Each s In shp.GroupItems
+            Call changeFont(s, nameFont)
+        Next
+    ElseIf shp.HasTable Then
+        Dim c As Cell, r As Row
+        For Each r In shp.Table.Rows
+            For Each c In r.Cells
+                Call changeFont(c.Shape, nameFont)
+            Next
+        Next
+    ElseIf shp.HasChart Then
+        Call setFontName(shp.Chart.Format.TextFrame2.TextRange.Font, nameFont)
+        For Each s In shp.Chart.Shapes
+            Call changeFont(s, nameFont)
+        Next
+    End If
+End Sub
+
+Private Sub setFontName(ByRef f As Object, ByVal nameFont As String)
+    If TypeName(f) = "Font" Or TypeName(f) = "Font2" Then
+        On Error Resume Next
+        f.Name = nameFont
+        f.NameFarEast = nameFont
+        f.NameAscii = nameFont
+        f.NameComplexScript = nameFont
+    Else
+        Debug.Print "font type:", TypeName(f)
+    End If
+End Sub
+
+'   Presentation全体のShapeに対して処理する場合
+Public Sub getColShapeFromPresentation(ByRef col As Collection)
+    Dim sld As Slide
+    Dim shp As Shape
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            Call putShapeIntoCol(shp, col)
+        Next
+    Next
+End Sub
+
+'   選択されたSlide内のShapeに対して処理する場合
+Public Sub getColShapeFromSlide(ByRef col As Collection)
+    Dim shp As Shape
+
+    If ActiveWindow.Selection.Type < ppSelectionSlides Then Exit Sub
+    For Each shp In ActiveWindow.Selection.SlideRange.Shapes
+        Call putShapeIntoCol(shp, col)
+    Next
+End Sub
+
+'   Group化されている場合も、個別のShapeをcolコレクションに格納
+Public Sub putShapeIntoCol(ByRef shp As Shape, ByRef col As Collection)
+    Dim s As Shape
+    If shp.Type <> msoGroup Then
+        col.Add shp
+    Else
+        For Each s In shp.GroupItems
+            Call putShapeIntoCol(s, col)
+        Next
+    End If
+End Sub
+
+'   SlideMasterに対して処理する場合
+Public Sub getColShapeFromSlideMaster(ByRef col As Collection)
+    Dim shp As Shape
+    Dim d As Design
+    For Each d In ActivePresentation.Designs
+        For Each shp In d.SlideMaster.Shapes.Placeholders
+            Call putShapeIntoCol(shp, col)
+        Next
+    Next
+End Sub

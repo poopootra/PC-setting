@@ -1,0 +1,1 @@
+=LAMBDA(array,CELL("address",array)&":"&CELL("address",INDEX(array,ROWS(array),COLUMNS(array))))

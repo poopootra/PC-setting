@@ -1,0 +1,42 @@
+Sub Test()
+    Dim shp As Shape
+    Dim sld As Slide
+    Dim s As Shape
+    Dim col As Collection
+    Dim i As Integer
+    Dim text_to_be_replaced As String
+    Dim text_to_replace As String
+    Dim count As Integer
+
+    text_to_be_replaced = InputBox("waht text to be replaced (Old) ?")
+    text_to_replace = InputBox("waht text to replace (New) ?")
+
+    Set col = New Collection
+    
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            If shp.Type <> msoGroup Then
+                col.Add shp
+            Else
+                For Each s In shp.GroupItems
+                    Call putShapeIntoCol(s, col)
+                Next
+            End If
+        Next
+    Next
+
+    count = 0
+    For Each shp In col
+        If shp.HasChart Then
+            i = 1
+            While i <= shp.Chart.SeriesCollection.count
+                If InStr(shp.Chart.SeriesCollection(i).Name, text_to_be_replaced) > 0 Then
+                    shp.Chart.SeriesCollection(i).Name = text_to_replace
+                    count = count + 1
+                End If
+                i = i + 1
+            Wend
+        End If
+    Next
+    MsgBox (count & " objects were replaced")
+End Sub

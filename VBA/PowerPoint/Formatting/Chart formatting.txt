@@ -1,0 +1,49 @@
+Public Sub adjustFont()
+    Dim sld As Slide
+    Dim shp As Shape
+    Dim count As Long
+    Dim test As Object
+
+    count = 1
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            If shp.HasChart Then
+                Debug.Print (count)
+                With shp.Chart
+                    Debug.Print (.ChartType)
+                    If Not ((.ChartType = xlPie) Or (.ChartType = xlPieExploded)) Then
+                        .ChartGroups(1).GapWidth = 100
+                        .ChartArea.Font.Color = vbBlack
+                        .ChartArea.Font.Name = "Arial"
+                        .HasTitle = False
+                        '.ChartArea.Font.Size = 12
+                        If Not .HasAxis(xlValue, xlPrimary) Then .HasAxis(xlValue) = True
+                        If Not .HasAxis(xlValue, xlSecondary) Then .HasAxis(xlValue) = True
+                        If Not .HasAxis(xlCategory) Then .HasAxis(xlCategory) = True
+                        With .Axes(xlValue, xlPrimary)
+                            .HasMajorGridlines = True
+                            .Border.LineStyle = 1
+                            .Border.Color = vbBlack
+                            .MajorTickMark = xlTickMarkInside
+                        End With
+                        With .Axes(xlCategory)
+                            .Border.Color = vbBlack
+                            '.HasMajorGridlines = True
+                        End With
+                        If .HasAxis(xlValue, xlSecondary) Then
+                            Set test = .Axes(xlValue, 2)
+                            With .Axes(xlValue, xlSecondary)
+                                .Border.LineStyle = 1
+                                .Border.Color = vbBlack
+                                .MajorTickMark = xlTickMarkOutside
+                            End With
+                        End If
+                    End If
+                End With
+                Debug.Print (count)
+            End If
+        Next
+    count = count + 1
+    Next
+    MsgBox ("Done")
+End Sub

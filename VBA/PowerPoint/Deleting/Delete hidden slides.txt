@@ -1,0 +1,10 @@
+Sub DeleteAllHiddenSlides()
+Dim x As Long
+For x = ActivePresentation.Slides.Count To 1 Step -1
+    With ActivePresentation.Slides(x)
+       If .SlideShowTransition.Hidden = True Then
+          .Delete
+       End If
+    End With
+Next
+End Sub

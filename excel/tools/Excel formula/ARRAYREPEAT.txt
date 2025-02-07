@@ -1,0 +1,1 @@
+=LAMBDA(direction,array,rep,LET(height,ROWS(array),width,COLUMNS(array),h_rep,IF(direction="H",rep,1),v_rep,IF(direction="V",rep,1),INDEX(array,MOD(SEQUENCE(height*v_rep)-1,height)+1,MOD(SEQUENCE(,width*h_rep)-1,width)+1)))

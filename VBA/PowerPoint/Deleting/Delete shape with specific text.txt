@@ -1,0 +1,68 @@
+Sub DeleteShapeWithSpecificText()
+
+    Dim sld As Slide
+    Dim shp As Shape
+    Dim sr As Series
+    Dim chrt As Chart
+    Dim text_to_delete As String
+    Dim count As Long
+    Dim col As Collection
+    Dim rc As Long
+    
+    rc = MsgBox("Would you like to delete text with partial match ?", vbYesNo + vbQuestion)
+    If rc = vbYes Then
+        MsgBox ("Will process with partial match")
+    Else
+        MsgBox ("Will process with complete match")
+    End If
+    
+    text_to_delete = InputBox("waht text to delete?")
+    count = 0
+    Set col = New Collection
+
+    Call getColShapeFromPresentation(col)   '   Presentation全体のShapeに対して処理する場合
+
+    If rc = vbYes Then
+        For Each shp In col      '各Shapeに対して処理
+            If shp.TextFrame.HasText Then
+                If InStr(shp.TextFrame.TextRange.Text, text_to_delete) > 0 Then
+                    shp.Delete
+                    count = count + 1
+                End If
+            End If
+        Next shp
+    Else
+        For Each shp In col      '各Shapeに対して処理
+            If shp.TextFrame.HasText Then
+                If shp.TextFrame.TextRange.Text = text_to_delete Then
+                    shp.Delete
+                    count = count + 1
+                End If
+            End If
+        Next shp
+    End If
+    
+    MsgBox (count & " objects were deleted")
+End Sub
+'   Presentation全体のShapeに対して処理する場合
+Public Sub getColShapeFromPresentation(ByRef col As Collection)
+    Dim sld As Slide
+    Dim shp As Shape
+    For Each sld In ActivePresentation.Slides
+        For Each shp In sld.Shapes
+            Call putShapeIntoCol(shp, col)
+        Next
+    Next
+End Sub
+
+Public Sub putShapeIntoCol(ByRef shp As Shape, ByRef col As Collection)
+    Dim s As Shape
+    If shp.Type <> msoGroup Then
+        col.Add shp
+    Else
+        For Each s In shp.GroupItems
+            Call putShapeIntoCol(s, col)
+        Next
+    End If
+End Sub
+

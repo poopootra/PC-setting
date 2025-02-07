@@ -1,0 +1,26 @@
+Sub AddTextAndCenter()
+    Dim text_to_inset As String
+    text_to_inset = InputBox("waht text to insert?")
+    
+    
+    Dim sngHeight As Single
+    Dim sngWidth As Single
+    
+    With ActivePresentation.PageSetup
+        sngHeight = .SlideHeight
+        sngWidth = .SlideWidth
+    End With
+    
+    Dim x As Long
+    Dim shape As shape
+    For x = ActivePresentation.Slides.Count To 1 Step -1
+        With ActivePresentation.Slides(x)
+            Set shape = .Shapes.AddShape(msoShapeRectangle, 0, 0, 30, 50)
+            shape.TextFrame.TextRange.Text = text_to_inset
+            shape.TextFrame.WordWrap = False
+            shape.TextFrame.AutoSize = ppAutoSizeShapeToFitText
+            shape.Left = (sngWidth - shape.Width) / 2
+        End With
+    Next
+End Sub
+

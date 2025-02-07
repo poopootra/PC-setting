@@ -1,0 +1,1 @@
+=LAMBDA(cell,text,LEN(cell)-LEN(SUBSTITUTE(cell,text,""))

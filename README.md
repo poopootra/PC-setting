@@ -3,7 +3,7 @@
 ## Windows OS settings
 1. Accessibility
   - [x] Set your device to dark mode
-  - [x] Enable text cursor indicator
+  - [ ] Enable text cursor indicator
     - This is very helpful when you set font size to small or background color is same as text default indicator. You will not lose your cursor position.
 2. Taskbar
   - [x] Hide search bar
@@ -19,7 +19,7 @@
   - [x] Show super hidden files
 This are useful when you do programming. Also, you can make sure that the file is exactly what you want with extensions.
 
-1. Keyboard
+4. Keyboard
   - [x] Make keyboard repeat faster
   - [x] Make keyboard delay shorter
   - [x] Turn off F1 key and insert key with `TurnOffF1KeyAndInsertKey.reg`
