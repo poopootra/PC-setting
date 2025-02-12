@@ -1,1 +1,0 @@
-=LAMBDA(formula,range,[suffix],LET(count_fom,LEN(formula)-LEN(SUBSTITUTE(formula,",","")),str_range,CELL("address",range)&":"&CELL("address",INDEX(range,ROWS(range))),IFERROR(EVALUATE(SUBSTITUTE(formula,",","(")&"("&str_range&IF(suffix<>"",suffix,REPT(")",count_fom+1))),"Not supported")))

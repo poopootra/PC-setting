@@ -1,1 +1,0 @@
-=LAMBDA(text,old,new,LET(orig,old,rpl,new,str,text,cnt,COUNTA(orig),INDEX(SCAN(str,SEQUENCE(cnt),LAMBDA(a,b,SUBSTITUTE(SUBSTITUTE(a,INDEX(orig,b),INDEX(rpl,b)),"  "," "))),cnt)))

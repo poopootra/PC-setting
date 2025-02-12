@@ -4,7 +4,6 @@
 'Done
 
 'There are some cases this code cannnot apply to due to error and using skip for them
-'If you come up with better idea, plase make sure to contact to Miro (miro.herbert@zs.com)
 Public Sub adjustFont()
     Dim nameFont As String
     nameFont = InputBox("What would you like to use?")

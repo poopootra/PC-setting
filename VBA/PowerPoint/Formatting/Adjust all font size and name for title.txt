@@ -1,4 +1,3 @@
-'If you come up with better idea, plase make sure to contact to Miro (miro.herbert@zs.com)
 Sub getTitles()
 Dim osld As Slide
 Dim sReport As String

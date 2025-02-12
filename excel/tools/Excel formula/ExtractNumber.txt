@@ -1,1 +1,0 @@
-=LAMBDA(cell,CONCAT(IFERROR(--MID(cell,SEQUENCE(LEN(cell)),1),"")))

@@ -1,4 +1,7 @@
 # What you should do to maximize your productivity with Windows
+legend:
+- [x] done in code (`.ps1`)
+- [ ] not done (manual)
 
 ## Windows OS settings
 1. Accessibility
@@ -12,7 +15,7 @@
   - [x] Hide Copilot
   - [x] Align taskbar to left
   - [ ] Pin and order apps to taskbar
-    - This is necessary because you can open app with `Win + [number]` key. Don't click app or `ctrl + alt + [any key]` to open app.
+    - This is necessary because you can open app with `Win + [number]` key. Don't click app or `ctrl + alt + [any key]` to open it.
 3. Explorer
   - [x] Show hidden files
   - [x] Show file extensions
